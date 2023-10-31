@@ -16,7 +16,7 @@ def get_cpu_temp():
     
     for sensor in temperature_infos:
         if sensor.SensorType == 'Temperature':
-            if sensor.Name == 'CPU CCD Average':
+            if sensor.Name == 'CPU CCD Max':
                 return sensor.Value
 
     return -1
