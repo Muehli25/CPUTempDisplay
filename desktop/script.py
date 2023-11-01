@@ -14,14 +14,20 @@ def get_cpu_temp():
     w = wmi.WMI(namespace="root/OpenHardwareMonitor")
     temperature_infos = w.Sensor()
     
+    temp_cpu = 0
+    temp_gpu = 0
+
     for sensor in temperature_infos:
         if sensor.SensorType == 'Temperature':
             if sensor.Name == 'CPU CCD Max':
-                return sensor.Value
+                temp_cpu = sensor.Value
+            if sensor.Name == 'GPU Core':
+                temp_gpu = sensor.Value
 
-    return -1
+    return temp_cpu, temp_gpu
 
 while True:
-    temperature = get_cpu_temp()
+    temp_cpu, temp_gpu = get_cpu_temp()
+    temperature = f"{temp_cpu},{temp_gpu}"
     ser.write(str(temperature).encode())
     time.sleep(2)
